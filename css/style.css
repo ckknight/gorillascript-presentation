@@ -1,0 +1,13 @@
+#gorilla-logo {
+  border: none;
+  box-shadow: none;
+  background: none;
+}
+
+code.language-javascript, pre.language-javascript {
+  background: #ffc;
+}
+
+code.language-gorillascript, pre.language-gorillascript {
+  background: #cff;
+}
