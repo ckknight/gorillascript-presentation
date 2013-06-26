@@ -12,7 +12,7 @@
     
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
     
-    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
 
     <link rel="stylesheet" href="css/prism.css">
@@ -50,56 +50,50 @@
           <p class="fragment">I argue that nearly all problems that occur when writing computer programs are due to these two attributes, often working together to befuddle us.</p>
         </section>
         <section>
-          <section>
-            <section>
-              <h3>Design philosophy</h3>
-              <p>One of the big philosophies behind GorillaScript is that if something is tedious, then there should be a way to do things "the right way" without having to expend too much brainpower on it.</p>
+          <h3>Design philosophy</h3>
+          <p>One of the big philosophies behind GorillaScript is that if something is tedious, then there should be a way to do things "the right way" without having to expend too much brainpower on it.</p>
+      
+          <p class="fragment">An good historical example of this is Garbage Collection. Before its wide-spread adoption, it was necessary to spend at least half of one's brainpower simply making sure that you've <code>free</code>'d or <code>delete</code>'d all your references. Once Garbage Collection comes into play, all the thought that would have gone into manual cleanup can be spent on producing a product.</p>
+        </section>
+        <section>
+          <p>GorillaScript was written with the Sapir-Whorf hypothesis in-mind, in that mental capabilities are limited by the ability or inability to articulate within the bounds of one's linguistic capabilities.</p>
+      
+          <p class="fragment">Humans have a finite number of thoughts that run through our minds per day. Thus, one of GorillaScript's main goals is to optimize human thought by relieving as much stress and ceremony of coding as possible while simultaneously enabling the writing of beautiful code.</p>
+        </section>
+        <section>
+          <h3>Beautiful code</h3>
           
-              <p class="fragment">An good historical example of this is Garbage Collection. Before its wide-spread adoption, it was necessary to spend at least half of one's brainpower simply making sure that you've <code>free</code>'d or <code>delete</code>'d all your references. Once Garbage Collection comes into play, all the thought that would have gone into manual cleanup can be spent on producing a product.</p>
-            </section>
-            <section>
-              <p class="fragment">GorillaScript was written with the Sapir-Whorf hypothesis in-mind, in that mental capabilities are limited by the ability or inability to articulate within the bounds of one's linguistic capabilities.</p>
+          <p>You might ask yourself what makes code beautiful, and I like to borrow from the 13th century priest and philosopher Thomas Aquinas.</p>
           
-              <p class="fragment">Humans have a finite number of thoughts that run through our minds per day. Thus, one of GorillaScript's main goals is to optimize human thought by relieving as much stress and ceremony of coding as possible while simultaneously enabling the writing of beautiful code.</p>
-            </section>
-          </section>
-          <section>
-            <h3>Beautiful code</h3>
-            
-            <p class="fragment">You might be asking yourself what makes code beautiful, and I like to borrow from the 13th century priest and philosopher Thomas Aquinas.</p>
-            
-            <ul>
-              <li class="fragment">Integrity: does my code do what I expect it to (and nothing I don't expect)? <blockquote>A building has integrity just like a man. And just as seldom. ~Ayn Rand</blockquote></li>
-              <li class="fragment">Clarity: is the code obvious in conveying its intent? <blockquote>Clarity is the counterbalance of profound thoughts. ~Luc de Clapiers</blockquote></li>
-              <li class="fragment">Proportionality: given the task I expect the code to do, is it proportional in size to what it's accomplishing? <blockquote>It is my ambition to say in ten sentences what others say in a whole book. ~Friedrich Nietzsche</blockquote></li>
-            </ul>
-          </section>
+          <ul>
+            <li class="fragment">Integrity: does my code do what I expect it to (and nothing I don't expect)? <blockquote>A building has integrity just like a man. And just as seldom. ~Ayn Rand</blockquote></li>
+            <li class="fragment">Clarity: is the code obvious in conveying its intent? <blockquote>Clarity is the counterbalance of profound thoughts. ~Luc de Clapiers</blockquote></li>
+            <li class="fragment">Proportionality: given the task I expect the code to do, is it proportional in size to what it's accomplishing? <blockquote>It is my ambition to say in ten sentences what others say in a whole book. ~Friedrich Nietzsche</blockquote></li>
+          </ul>
         </section>
         <section>
           <h3>Problems specific to JavaScript as-is</h3>
           <h3 class="fragment">(and how GorillaScript <em>tries</em> to fix it)</h3>
         </section>
         <section>
-          <section>
-            <h3>Unstrict equality by default</h3>
-            <pre><code class="language-javascript">1 == "1"
-  0 != ""
-  3 == "03"
-  [] == ""
-  [] == 0
-  [] == ![]
-  [] == false
-  [""] == 0
-  ["0"] == 0
-  {toString: function() { return ""; }} == 0
-  null != false
-  null == undefined
-  </code></pre>
-          
-            <p class="fragment">In JavaScript, the solution is to always use <code class="language-javascript">===</code>. The only valid time to use <code class="language-javascript">==</code> is when comparing against <code class="language-javascript">null</code></p>
-          </section>
-          <section>
-            <pre><code class="language-gorillascript">1 != "1"
+          <h3>Unstrict equality by default</h3>
+          <pre><code class="language-javascript">1 == "1"
+0 != ""
+3 == "03"
+[] == ""
+[] == 0
+[] == ![]
+[] == false
+[""] == 0
+["0"] == 0
+{toString: function() { return ""; }} == 0
+null != false
+null == undefined</code></pre>
+        
+          <p class="fragment">In JavaScript, the solution is to always use <code class="language-javascript">===</code>. The only valid time to use <code class="language-javascript">==</code> is when comparing against <code class="language-javascript">null</code></p>
+        </section>
+        <section>
+          <pre><code class="language-gorillascript">1 != "1"
 3 != "03"
 [] != ""
 // etc
@@ -109,65 +103,58 @@ null? // false
 undefined? // false
 0? // true
 false? // true
-true? // true
-</code></pre>
-          </section>
+true? // true</code></pre>
         </section>
         <section>
-          <section>
-            <h3>The <code>+</code> and <code>+=</code> operators</h3>
-            <p>What does the following code do?</p>
-            <pre><code class="language-javascript">a = b + c;
-  </code></pre>
-            <p class="fragment">It depends, which is terrible.</p>
-          
-            <pre class="fragment"><code class="language-javascript">1 + 2 === 3 // as expected
-  "hello, " + "world" === "hello, world" // as expected
-  "hello, " + 123 === "hello, 123" // sure, I can accept this
-  "1" + 2 === "12"
-  1 + "2" === "12"
+          <h3>The <code>+</code> and <code>+=</code> operators</h3>
+          <p>What does the following code do?</p>
+          <pre><code class="language-javascript">a = b + c;</code></pre>
+          <p class="fragment">It depends, which is terrible.</p>
+        
+          <pre class="fragment"><code class="language-javascript">1 + 2 === 3 // as expected
+"hello, " + "world" === "hello, world" // as expected
+"hello, " + 123 === "hello, 123" // sure, I can accept this
+"1" + 2 === "12"
+1 + "2" === "12"
 
-  // and for some oddities
-  false + false === 0
-  false + true === 1
-  true + true === 2
-  null + null === 0
-  isNaN(undefined + undefined)
-  [] + [] === ""
-  {} + {} === "[object Object][object Object]"
-  true + [] === "true"
-  new Date() + 1 === "Tue Jan 29 2013 20:25:58 GMT-0800 (PST)1" // or something like it
-  new Date() - 1 === 1359519958072 // or some other number
-  var foo = {
-    toString: function () { return 5; }
-    valueOf: function () { return "foo"; }
-  };
-  foo.toString() + 1 === 6
-  foo + 1 === "foo1"
-  </code></pre>
-          </section>
-          <section>
-            <h3>Addition and String Concatenation as separate operators</h3>
-            <pre class="fragment"><code class="language-gorillascript">1 + 2 == 3
-  "hello, " + "world" // TypeError
-  "hello, " + 123 === "hello, 123" // TypeError
-  "1" + 2 // TypeError
-  1 + "2" // TypeError
+// and for some oddities
+false + false === 0
+false + true === 1
+true + true === 2
+null + null === 0
+isNaN(undefined + undefined)
+[] + [] === ""
+{} + {} === "[object Object][object Object]"
+true + [] === "true"
+new Date() + 1 === "Tue Jan 29 2013 20:25:58 GMT-0800 (PST)1" // or something like it
+new Date() - 1 === 1359519958072 // or some other number
+var foo = {
+  toString: function () { return 5; }
+  valueOf: function () { return "foo"; }
+};
+foo.toString() + 1 === 6
+foo + 1 === "foo1"</code></pre>
+        </section>
+        <section>
+          <h3>Addition and String Concatenation as separate operators</h3>
+          <pre class="fragment"><code class="language-gorillascript">1 + 2 == 3
+"hello, " + "world" // TypeError
+"hello, " + 123 === "hello, 123" // TypeError
+"1" + 2 // TypeError
+1 + "2" // TypeError
 
-  "hello, " &amp; "world" == "hello, world"
-  "hello, " &amp; 123 == "hello, 123"
-  "1" &amp; 2 == "12"
-  1 &amp; "2" == "12"
-  1 &amp; 2 == "12" // even this one!
+"hello, " &amp; "world" == "hello, world"
+"hello, " &amp; 123 == "hello, 123"
+"1" &amp; 2 == "12"
+1 &amp; "2" == "12"
+1 &amp; 2 == "12" // even this one!
 
-  // or, an often easier way:
+// or, an often easier way:
 
-  "hello, $(123)" == "hello, 123"
-  "1$(2)" == "12"
-  "$(1)2" == "12"
-  "$(1)$(2)" == "12"
-  </code></pre>
-          </section>
+"hello, $(123)" == "hello, 123"
+"1$(2)" == "12"
+"$(1)2" == "12"
+"$(1)$(2)" == "12"</code></pre>
         </section>
         
         <section>
@@ -181,8 +168,7 @@ true? // true
           
           <pre class="fragment"><code class="language-gorillascript">1 + {} // TypeError
 1 * undefined // TypeError
-[1, 2, 3] &lt; [1, 2, 4] // TypeError
-</code></pre>
+[1, 2, 3] &lt; [1, 2, 4] // TypeError</code></pre>
           
           <p class="fragment">The idea is to catch simple type errors such as these as early as possible rather than having them bite you later.</p>
         </section>
@@ -195,8 +181,7 @@ true? // true
   this.y = y;
 }
 
-var point = Point(1, 2); // congratulations, you've now polluted the global scope.
-</code></pre>
+var point = Point(1, 2); // congratulations, you've now polluted the global scope.</code></pre>
           
           <p class="fragment">GorillaScript code is always in strict-mode.</p>
         </section>
@@ -212,8 +197,7 @@ var point = Point(1, 2); // congratulations, you've now polluted the global scop
 let mutable y = 2
 x += 1 // compile-time error, `x` is immutable.
 y += 1 // perfectly fine
-z += 1 // compile-time error, `z` was never declared.
-</code></pre>
+z += 1 // compile-time error, `z` was never declared.</code></pre>
         </section>
         
         <section>
@@ -223,8 +207,7 @@ z += 1 // compile-time error, `z` was never declared.
   // well, test is definitely 1 now
 } else {
   // this will never be hit
-}
-</code></pre>
+}</code></pre>
           
           <p class="fragment">GorillaScript solves this by two ways:</p>
           <ol>
@@ -236,184 +219,160 @@ z += 1 // compile-time error, `z` was never declared.
         </section>
         
         <section>
-          <section>
-            <h3>For loops are easy to get wrong</h3>
+          <h3>For loops are easy to get wrong</h3>
+        
+          <p>JavaScript has two kinds of for loops, one for object iteration (<code class="language-javascript">for (k in obj) {}</code>), and one C-style (<code class="language-javascript">for (;;) {}</code>).</p>
+        
+          <p class="fragment">There is no built-in way to iterate over arrays, and it's easy to do it inefficiently if you code by-hand.</p>
+        
+          <p class="fragment">Even for the object iteration loop, one still needs to wrap the body in a <code class="language-javascript">hasOwnProperty</code> check to get at the keys you actually want.</p>
+        
+          <p class="fragment">Even if you use the new functional methods of iteration like <code class="language-javascript">Array.prototype.forEach</code>, there are still issues such as the loss of <code class="language-javascript">break</code>, <code class="language-javascript">continue</code>, and <code class="language-javascript">return</code> as well as the unmitigatable context switching.</p>
+        
+          <p class="fragment">ECMAScript 6 proposes the for-of loop, and if we ever enter a world where we don't need to support old browsers, it will be amazing (probably not).</p>
+        
+          <p class="fragment">Also, due to JavaScript's lack of block scoping (all bindings are scoped to the function), it is easy to misuse a mutated variable within a closure.</p>
+        </section>
+        
+        <section>
+          <h3>Examples of bad looping, for-in</h3>
           
-            <p>JavaScript has two kinds of for loops, one for object iteration (<code class="language-javascript">for (k in obj) {}</code>), and one C-style (<code class="language-javascript">for (;;) {}</code>).</p>
+          <pre><code class="language-javascript">// didn't declare var k, global pollution
+for (k in obj) {}</code></pre>
           
-            <p class="fragment">There is no built-in way to iterate over arrays, and it's easy to do it inefficiently if you code by-hand.</p>
-          
-            <p class="fragment">Even for the object iteration loop, one still needs to wrap the body in a <code class="language-javascript">hasOwnProperty</code> check to get at the keys you actually want.</p>
-          
-            <p class="fragment">Even if you use the new functional methods of iteration like <code class="language-javascript">Array.prototype.forEach</code>, there are still issues such as the loss of <code class="language-javascript">break</code>, <code class="language-javascript">continue</code>, and <code class="language-javascript">return</code> as well as the unmitigatable context switching.</p>
-          
-            <p class="fragment">ECMAScript 6 proposes the for-of loop, and if we ever enter a world where we don't need to support old browsers, it will be amazing (probably not).</p>
-          
-            <p class="fragment">Also, due to JavaScript's lack of block scoping (all bindings are scoped to the function), it is easy to misuse a mutated variable within a closure.</p>
-          </section>
-          
-          <section>
-            <h3>Examples of bad looping, for-in</h3>
-            
-            <pre><code class="language-javascript">// didn't declare var k, global pollution
-for (k in obj) {}
-</code></pre>
-            
-            <pre><code class="language-javascript">for (var k in obj) {
+          <pre><code class="language-javascript">for (var k in obj) {
   // oops, getting this on all keys, not just owned keys
   doSomething(k);
-}
-</code></pre>
-            
-            <pre><code class="language-javascript">for (var k in obj) {
+}</code></pre>
+          <pre><code class="language-javascript">for (var k in obj) {
   // what if obj.hasOwnProperty isn't Object.prototype.hasOwnProperty?
   if (obj.hasOwnProperty(k)) {
     doSomething(k);
   }
-}
-</code></pre>
-            
-            <pre><code class="language-javascript">// looping over an array with for-in is wrong, but often typical
+}</code></pre>
+        </section>
+        <section>
+          
+          <pre><code class="language-javascript">// looping over an array with for-in is wrong, but often typical
 for (var item in array) { 
   doSomething(item);
-}
-</code></pre>
+}</code></pre>
             
-            <pre><code class="language-javascript">for (var k in obj) {
+          <pre><code class="language-javascript">for (var k in obj) {
   if (Object.prototype.hasOwnProperty.call(obj, k)) {
     doSomething(function () {
       // unless doSomething calls this synchronously, `k` will be the last key of `obj`
       return k;
     });
   }
-}
-</code></pre>
-          </section>
+}</code></pre>
+        </section>
           
-          <section>
-            <h3>Examples of bad looping over an array</h3>
-            
-            <pre><code class="language-javascript">// array.length is accessed every loop
+        <section>
+          <h3>Examples of bad looping over an array</h3>
+          
+          <pre><code class="language-javascript">// array.length is accessed every loop
 for (var i = 0; i &lt; array.length; ++i) {
   var item = array[i];
   doSomething(item);
-}
-</code></pre>
+}</code></pre>
             
-            <pre><code class="language-javascript">for (var i = 0, len = array.length; i &lt; len; ++i) {
+          <pre><code class="language-javascript">for (var i = 0, len = array.length; i &lt; len; ++i) {
   var item = array[i];
   doSomething(function () {
     // both `i` and `item` will be wrong unless doSomething calls this synchronously
     return item;
   });
-}
-</code></pre>
-          </section>
+}</code></pre>
+        </section>
+      
+        <section>
+          <h3>GorillaScript loops</h3>
+          
+          <p>All loops in GorillaScript provide block-scoping, so closing over bindings is something you don't even need to worry about.</p>
+          
+          <p>GorillaScript has five kinds of normal loops:</p>
+          
+          <ol>
+            <li class="fragment"><code class="language-gorillascript">while</code> (and <code class="language-gorillascript">until</code>): Works like a normal while, but you can also specify an increment so it acts like a <code class="language-javascript">for</code> loop.</li>
+            <li class="fragment"><code class="language-gorillascript">for-in</code>: Iterate over an array-like object, can easily loop backwards or with a custom step or through only a segment.</li>
+            <li class="fragment"><code class="language-gorillascript">for-of</code>: Iterate over an object's keys and values, checking for ownership</li>
+            <li class="fragment"><code class="language-gorillascript">for-ofall</code>: Iterate over an object's keys and values, not checking for ownership</li>
+            <li class="fragment"><code class="language-gorillascript">for-from</code>: Iterate over a generator.</li>
+          </ol>
+        </section>
         
-          <section>
-            <h3>GorillaScript loops</h3>
+        <section>
+          <h3>While/until</h3>
           
-            <p>All loops in GorillaScript provide block-scoping, so closing over bindings is something you don't even need to worry about.</p>
+          <pre><code class="language-gorillascript">while test()
+  do-something()</code></pre>
+            
+          <pre><code class="language-gorillascript">while test(), i += 1
+  do-something()</code></pre>
+            
+          <pre><code class="language-gorillascript">until test()
+  do-something()</code></pre>
+            
+          <pre><code class="language-gorillascript">until test(), i += 1
+  do-something()</code></pre>
+        </section>
+        
+        <section>
+          <h3>for-in (array-like iteration)</h3>
           
-            <p>GorillaScript has five kinds of normal loops:</p>
-          
-            <ol>
-              <li class="fragment"><code class="language-gorillascript">while</code> (and <code class="language-gorillascript">until</code>): Works like a normal while, but you can also specify an increment so it acts like a <code class="language-javascript">for</code> loop.</li>
-              <li class="fragment"><code class="language-gorillascript">for-in</code>: Iterate over an array-like object, can easily loop backwards or with a custom step or through only a segment.</li>
-              <li class="fragment"><code class="language-gorillascript">for-of</code>: Iterate over an object's keys and values, checking for ownership</li>
-              <li class="fragment"><code class="language-gorillascript">for-ofall</code>: Iterate over an object's keys and values, not checking for ownership</li>
-              <li class="fragment"><code class="language-gorillascript">for-from</code>: Iterate over a generator.</li>
-            </ol>
-          </section>
-          
-          <section>
-            <h3>While/until</h3>
+          <pre><code class="language-gorillascript">for item in get-array()
+  do-something item</code></pre>
             
-            <pre><code class="language-gorillascript">while test()
-  do-something()
-</code></pre>
+          <pre><code class="language-gorillascript">for item, index, length in get-array()
+  do-something item</code></pre>
             
-            <pre><code class="language-gorillascript">while test(), i += 1
-  do-something()
-</code></pre>
-            
-            <pre><code class="language-gorillascript">until test()
-  do-something()
-</code></pre>
-            
-            <pre><code class="language-gorillascript">until test(), i += 1
-  do-something()
-</code></pre>
-          </section>
-          
-          <section>
-            <h3>for-in (array-like iteration)</h3>
-            
-            <pre><code class="language-gorillascript">for item in get-array()
-  do-something item
-</code></pre>
-            
-            <pre><code class="language-gorillascript">for item, index, length in get-array()
-  do-something item
-</code></pre>
-            
-            <pre><code class="language-gorillascript">// let's go backwards
+          <pre><code class="language-gorillascript">// let's go backwards
 for item in get-array() by -1
-  do-something item
-</code></pre>
+  do-something item</code></pre>
             
-            <pre><code class="language-gorillascript">// let's only get every other one
+          <pre><code class="language-gorillascript">// let's only get every other one
 for item in get-array() by 2
-  do-something item
-</code></pre>
+  do-something item</code></pre>
             
-            <pre><code class="language-gorillascript">// only some middle parts
+          <pre><code class="language-gorillascript">// only some middle parts
 for item in get-array()[5 to -5]
-  do-something item
-</code></pre>
+  do-something item</code></pre>
             
-            <pre><code class="language-gorillascript">for item in get-array()
+          <pre><code class="language-gorillascript">for item in get-array()
   // sure, pass a function in, `item` will point to the correct object.
   do-something #
-    item
-</code></pre>
-          </section>
+    item</code></pre>
+        </section>
+        
+        <section>
+          <h3>for-of (object iteration)</h3>
           
-          <section>
-            <h3>for-of (object iteration)</h3>
+          <pre><code class="language-gorillascript">for key, value of get-object()
+  do-something key, value</code></pre>
             
-            <pre><code class="language-gorillascript">for key, value of get-object()
-  do-something key, value
-</code></pre>
-            
-            <pre><code class="language-gorillascript">for key, value, index of get-object()
-  do-something key, value
-</code></pre>
+          <pre><code class="language-gorillascript">for key, value, index of get-object()
+  do-something key, value</code></pre>
 
-            <pre><code class="language-gorillascript">for key, value ofall get-object()
-  do-something key, value
-</code></pre>
-          </section>
+          <pre><code class="language-gorillascript">for key, value ofall get-object()
+  do-something key, value</code></pre>
+        </section>
+        
+        <section>
+          <h3>for-from (generator iteration)</h3>
           
-          <section>
-            <h3>for-from (generator iteration)</h3>
+          <pre><code class="language-gorillascript">for value from gimme-numbers()
+  do-something value</code></pre>
             
-            <pre><code class="language-gorillascript">for value from gimme-numbers()
-  do-something value
-</code></pre>
-            
-            <pre><code class="language-gorillascript">for value, index from gimme-numbers()
-  do-something value
-</code></pre>
-          </section>
+          <pre><code class="language-gorillascript">for value, index from gimme-numbers()
+  do-something value</code></pre>
         </section>
         <section>
-          <section>
-            <h3>Callback hell</h3>
+          <h3>Callback hell</h3>
+        
+          <p>When dealing with highly asynchronous back-and-forth IO, it is easy to get into a state affectionately known as "callback hell".</p>
           
-            <p>When dealing with highly asynchronous back-and-forth IO, it is easy to get into a state affectionately known as "callback hell".</p>
-            
-            <pre><code class="language-javascript">db.open(function (err, conn) {
+          <pre><code class="language-javascript">db.open(function (err, conn) {
   if (err) {
     handleError(err);
   } else {
@@ -427,47 +386,42 @@ for item in get-array()[5 to -5]
       }
     });
   }
-});
-</code></pre>
-            
-            <p>Thankfully, this is mitigatable with libraries such as <a href="https://github.com/caolan/async">caolan/async</a>, but it's even nicer when handled as first-class syntax.</p>
-          </section>
-          <section>
-            <p>GorillaScript has two ways of handling asynchronous workflows, usable based on your taste.</p>
+});</code></pre>
+          
+          <p>Thankfully, this is mitigatable with libraries such as <a href="https://github.com/caolan/async">caolan/async</a>, but it's even nicer when handled as first-class syntax.</p>
+        </section>
+        <section>
+          <p>GorillaScript has two ways of handling asynchronous workflows, usable based on your taste.</p>
 
-            <p>This code is equivalent to that on the previous slide:</p>
-            
-            <pre><code class="language-gorillascript">async! handle-error, conn &lt;- db.open()
+          <p>This code is equivalent to that on the previous slide:</p>
+          
+          <pre><code class="language-gorillascript">async! handle-error, conn &lt;- db.open()
 async! handle-error, result &lt;- conn.send some-query
 async! handle-error, other-result &lt;- conn.send some-other-query
-// etc.
-</code></pre>
-          </section>
-          <section>
-            <p>GorillaScript also has first-class <a href="http://promises-aplus.github.io/promises-spec/">Promises/A+</a> support, as well as tools to convert between node.js-style callbacks into nice Promises.</p>
+// etc.</code></pre>
+        </section>
+        <section>
+          <p>GorillaScript also has first-class <a href="http://promises-aplus.github.io/promises-spec/">Promises/A+</a> support, as well as tools to convert between node.js-style callbacks into nice Promises.</p>
+          
+          <p>Ideally, this syntax does work much nicer if everything exposes its asynchronous results as Promises rather than simple callbacks.</p>
+          
+          <p>One major benefit is that your asynchronous code looks practically identical to synchronous code, except that the <code>yield</code> expression ends up waiting on another Promise, allowing for extremely easy composability.</p>
+          
+          <pre><code class="language-gorillascript">promise!
+let conn = yield to-promise! db.open()
+let result = yield to-promise! conn.send some-query
+let other-result = yield to-promise! conn.send some-other-query
+// etc.</code></pre>
             
-            <p>Ideally, this syntax does work much nicer if everything exposes its asynchronous results as Promises rather than simple callbacks.</p>
+          <p class="fragment" data-fragment-index="1">Or say we want to do those last two queries at the same time:</p>
             
-            <p>One major benefit is that your asynchronous code looks practically identical to synchronous code, except that the <code>yield</code> expression ends up waiting on another Promise, allowing for extremely easy composability.</p>
-            
-            <pre><code class="language-gorillascript">promise!
-  let conn = yield to-promise! db.open()
-  let result = yield to-promise! conn.send some-query
-  let other-result = yield to-promise! conn.send some-other-query
-  // etc.
-</code></pre>
-            
-            <p class="fragment" data-fragment-index="1">Or say we want to do those last two queries at the same time:</p>
-            
-            <pre class="fragment" data-fragment-index="1"><code class="language-gorillascript">promise!
-  let conn = yield to-promise! db.open()
-  let [result, other-result] = yield every-promise! [
-    to-promise! conn.send some-query
-    to-promise! conn.send some-other-query
-  ]
-  // etc.
-</code></pre>
-          </section>
+          <pre class="fragment" data-fragment-index="1"><code class="language-gorillascript">promise!
+let conn = yield to-promise! db.open()
+let [result, other-result] = yield every-promise! [
+  to-promise! conn.send some-query
+  to-promise! conn.send some-other-query
+]
+// etc.</code></pre>
         </section>
         <section>
           <h2>Shiny features</h2>
@@ -477,8 +431,7 @@ async! handle-error, other-result &lt;- conn.send some-other-query
             <pre><code class="language-gorillascript">const DEBUG = true
 
 if DEBUG
-  do-some-expensive-check()
-</code></pre>
+  do-some-expensive-check()</code></pre>
         </section>
         <section>
           <h3>Indentation-based code blocks</h3>
@@ -491,8 +444,7 @@ if DEBUG
     for item in array
       item.value
   else
-    something-else()
-</code></pre>
+    something-else()</code></pre>
         </section>
         <section>
           <h3>Everything is an expression (pretty much)</h3>
@@ -502,8 +454,7 @@ if DEBUG
           <pre><code class="language-gorillascript">let x = something() or throw Error "oh noes!"
 // `y` will be an array
 let y = for item in array
-  item.value
-</code></pre>
+  item.value</code></pre>
         </section>
         <section>
           <h3>Number syntax</h3>
@@ -514,8 +465,7 @@ let octal = 0o070 // octals use 0o instead of just 0
 let binary = 0b1010010101 // binary numbers
 let radix = 36rNFfdH45 // custom radixes from 2-36
 let float = 123_456.789_012
-let hex-float = 0x1234.5678 // all numbers can have fractions
-</code></pre>
+let hex-float = 0x1234.5678 // all numbers can have fractions</code></pre>
         </section>
         <section>
           <h3>String syntax</h3>
@@ -528,8 +478,7 @@ let multi-line = """
   
   I hope you're well today.
   """
-let backslash = \hello-world // same as "helloWorld"
-</code></pre>
+let backslash = \hello-world // same as "helloWorld"</code></pre>
         </section>
         <section>
           <h3>RegExp syntax</h3>
@@ -538,8 +487,7 @@ let backslash = \hello-world // same as "helloWorld"
 let regex = r"""
   This is a large regex, $name
   And all the space is ignored # and this is ignored, too!
-  """gim
-</code></pre>
+  """gim</code></pre>
         </section>
         <section>
           <h3>Function syntax</h3>
@@ -562,8 +510,7 @@ let hello(name as String) // this will error if passed a non-String
 
 let side-effects(name)! // prevent automatic return
   log(name)
-  // returns undefined
-</code></pre>
+  // returns undefined</code></pre>
         </section>
         <section>
           <h3>Call syntax</h3>
@@ -578,8 +525,7 @@ f@ context, ...array // same as f.apply(context, array)
 
 new f
 new f item
-new f(item)
-</code></pre>
+new f(item)</code></pre>
         </section>
         <section>
           <h3>Binding access</h3>
@@ -594,8 +540,7 @@ f@ context, ...array // same as f.apply(context, array)
 
 new f
 new f item
-new f(item)
-</code></pre>
+new f(item)</code></pre>
           
         </section>
         <section>
@@ -608,8 +553,7 @@ new f(item)
 let bound = obj@.f
 assert bound() == obj
 let unbound = obj.f
-assert unbound() == window
-</code></pre>
+assert unbound() == window</code></pre>
         </section>
         <section>
           <h3>Object syntax</h3>
@@ -640,8 +584,7 @@ let special = {
 
 let with-prototype = { extends special
   value: 1
-}
-</code></pre>
+}</code></pre>
         </section>
         <section>
           <h3>Map syntax</h3>
@@ -659,8 +602,7 @@ assert map.has obj
 assert not map.has other
 map.set other, "there"
 assert map.has other
-assert map.get(other) == "there"
-</code></pre>
+assert map.get(other) == "there"</code></pre>
         </section>
         <section>
           <h3>Set syntax</h3>
@@ -672,8 +614,7 @@ set.delete(other)
 assert not set.has(other)
 set.add other
 assert set.has(other)
-set.add other // does nothing, already in the set.
-</code></pre>
+set.add other // does nothing, already in the set.</code></pre>
         </section>
         <section>
           <h3>Class syntax</h3>
@@ -708,79 +649,66 @@ assert toko.eat() == "Toko eats a cherry"
 // set a method on the Gorilla prototype
 Gorilla::barrel := # @name &amp; " throws a barrel!"
 
-assert toko.barrel() == "Toko throws a barrel!"
-</code></pre>
+assert toko.barrel() == "Toko throws a barrel!"</code></pre>
         </section>
         <section>
-          <section>
-            <h3>Loops with else</h3>
-            <pre><code class="language-gorillascript">for item in array
+          <h3>Loops with else</h3>
+          <pre><code class="language-gorillascript">for item in array
   do-something item
 else
-  no-items()
-</code></pre>
-          </section>
-          <section>
-            <h3>For-some</h3>
-            <pre><code class="language-gorillascript">let has-good = for some item in array
-  item.is-good()
-</code></pre>
-          </section>
-          <section>
-            <h3>For-every</h3>
-            <pre><code class="language-gorillascript">let all-good = for every item in array
-  item.is-good()
-</code></pre>
-          </section>
-          <section>
-            <h3>For-reduce</h3>
-            <pre><code class="language-gorillascript">let total = for reduce item in array, current = 0
-  current + item.value
-</code></pre>
-          </section>
-          <section>
-            <h3>For-filter</h3>
-            <pre><code class="language-gorillascript">let good-ones = for filter item in array
-  item.is-good()
-</code></pre>
-          </section>
-          <section>
-            <h3>For-first</h3>
-            <pre><code class="language-gorillascript">let found = for first item in array
+  no-items()</code></pre>
+        </section>
+        <section>
+          <h3>For-some</h3>
+          <pre><code class="language-gorillascript">let has-good = for some item in array
+  item.is-good()</code></pre>
+        </section>
+        <section>
+          <h3>For-every</h3>
+          <pre><code class="language-gorillascript">let all-good = for every item in array
+  item.is-good()</code></pre>
+        </section>
+        <section>
+          <h3>For-reduce</h3>
+          <pre><code class="language-gorillascript">let total = for reduce item in array, current = 0
+  current + item.value</code></pre>
+        </section>
+        <section>
+          <h3>For-filter</h3>
+          <pre><code class="language-gorillascript">let good-ones = for filter item in array
+  item.is-good()</code></pre>
+        </section>
+        <section>
+          <h3>For-first</h3>
+          <pre><code class="language-gorillascript">let found = for first item in array
   if item.is-good()
     item
 else
-  null
-</code></pre>
-          </section>
+  null</code></pre>
         </section>
         <section>
           <h3>Array slicing</h3>
           <pre><code class="language-gorillascript">let array = [\a, \b, \c, \d]
 let middle = array[1 til -1]
-let reversed-middle = array[-2 til 0 by -1]
-</code></pre>
+let reversed-middle = array[-2 til 0 by -1]</code></pre>
         </section>
         <section>
           <h3>Array negative indexing</h3>
           <pre><code class="language-gorillascript">let array = [\a, \b, \c, \d]
-let last = array[* - 1]
-</code></pre>
+let last = array[* - 1]</code></pre>
         </section>
         <section>
           <h3>Cascades</h3>
           <pre><code class="language-gorillascript">let array = [\a, \b, \c, \d, \e]
   ..push \f
   ..reverse()
-  ..sort()
-</code></pre>
+  ..sort()</code></pre>
           
           <pre><code class="language-gorillascript">document.query-selector \h1
   ..style
     ..color := \red
     ..font-size := "200%"
-  ..inner-HTML := "Hello, world!"
-</code></pre>
+  ..inner-HTML := "Hello, world!"</code></pre>
         </section>
         <section>
           <h3>Destructuring</h3>
@@ -794,14 +722,12 @@ assert c == 4
 
 let [d, {e, f: [g]}] = get-data()
 
-let [value, ...rest] = array
-</code></pre>
+let [value, ...rest] = array</code></pre>
         </section>
         <section>
-          <section>
-            <h3>Switch</h3>
-            <p>Switch is break-by-default, opt-in fallthrough, unlike JavaScript.</p>
-            <pre><code class="language-gorillascript">switch value
+          <h3>Switch</h3>
+          <p>Switch is break-by-default, opt-in fallthrough, unlike JavaScript.</p>
+          <pre><code class="language-gorillascript">switch value
 case 0, 1, 2
   "small"
 case 3, 4, 5
@@ -809,20 +735,17 @@ case 3, 4, 5
 case 6, 7, 8
   "large"
 default
-  "unknown"
-</code></pre>
-          </section>
-          <section>
-            <h3>Topicless switch</h3>
-            <pre><code class="language-gorillascript">switch
+  "unknown"</code></pre>
+        </section>
+        <section>
+          <h3>Topicless switch</h3>
+          <pre><code class="language-gorillascript">switch
 case is-good()
   "good"
 case is-bad()
   "bad"
 default
-  "neutral"
-</code></pre>
-          </section>
+  "neutral"</code></pre>
         </section>
         <section>
           <h3>Try</h3>
@@ -835,8 +758,7 @@ catch e
 else
   whew()
 finally
-  cleanup()
-</code></pre>
+  cleanup()</code></pre>
         </section>
         <section>
           <h3>Generators</h3>
@@ -847,32 +769,28 @@ finally
     yield b
     let tmp = a
     a := b
-    b += tmp
-</code></pre>
+    b += tmp</code></pre>
         </section>
         <section>
-          <section>
-            <h3>Promises</h3>
-            <pre><code class="language-gorillascript">let make-promise = promise! #(filename)*
+          <h3>Promises</h3>
+          <pre><code class="language-gorillascript">let make-promise = promise! #(filename)*
   // here, read-file returns a Promise
   let text = yield read-file(filename)
   text.to-upper-case()
 
 let promise = make-promise()
-  .then(on-success, on-failure)
-</code></pre>
+  .then(on-success, on-failure)</code></pre>
 
-            <pre><code class="language-gorillascript">let promise = promise!
+          <pre><code class="language-gorillascript">let promise = promise!
   // here, read-file returns a Promise
   let text = yield read-file(filename)
   text.to-upper-case()
 
-promise.then(on-success, on-failure)
-</code></pre>
-          </section>
-          <section>
-            <h3>Converting a promise to a node.js-style callback</h3>
-            <pre><code class="language-gorillascript">let do-stuff(filename)
+promise.then(on-success, on-failure)</code></pre>
+        </section>
+        <section>
+          <h3>Converting a promise to a node.js-style callback</h3>
+          <pre><code class="language-gorillascript">let do-stuff(filename)
   let my-promise = promise!
     let p = to-promise! fs.read-file filename, "utf8"
     let text = yield p
@@ -883,56 +801,48 @@ promise.then(on-success, on-failure)
     if err?
       handle-error err
     else
-      handle-success value
-</code></pre>
-          </section>
-          <section>
-            <h3>fulfilled! and rejected!</h3>
-            <pre><code class="language-gorillascript">let promise = fulfilled! value
-let bad-promise = rejected! reason
-</code></pre>
-          </section>
-          <section>
-            <h3>delay!</h3>
-            <pre><code class="language-gorillascript">let take-a-while = promise! #*
+      handle-success value</code></pre>
+        </section>
+        <section>
+          <h3>fulfilled! and rejected!</h3>
+          <pre><code class="language-gorillascript">let promise = fulfilled! value
+let bad-promise = rejected! reason</code></pre>
+        </section>
+        <section>
+          <h3>delay!</h3>
+          <pre><code class="language-gorillascript">let take-a-while = promise! #*
   for i in 0 til 10
     calculate(i)
-    yield delay! 100_ms
-</code></pre>
-          </section>
-          <section>
-            <h3>some-promise!</h3>
-            <pre><code class="language-gorillascript">let read-file-or-timeout(filename)
+    yield delay! 100_ms</code></pre>
+        </section>
+        <section>
+          <h3>some-promise!</h3>
+          <pre><code class="language-gorillascript">let read-file-or-timeout(filename)
   some-promise! [
     read-file filename
     delay! 1000_ms
-  ]
-</code></pre>
-          </section>
-          <section>
-            <h3>every-promise!</h3>
-            <pre><code class="language-gorillascript">let read-many-files(filenames)
+  ]</code></pre>
+        </section>
+        <section>
+          <h3>every-promise!</h3>
+          <pre><code class="language-gorillascript">let read-many-files(filenames)
   let file-promises = []
   for filename in filenames
     file-promises.push read-file filename
-  every-promise! file-promises
-</code></pre>
-            <pre><code class="language-gorillascript">let read-many-files(filenames)
+  every-promise! file-promises</code></pre>
+          <pre><code class="language-gorillascript">let read-many-files(filenames)
   let file-promises = {}
   for filename in filenames
     file-promises[filename] := read-file filename
-  every-promise! file-promises
-</code></pre>
-          </section>
-          <section>
-            <h3>promisefor</h3>
-            <pre><code class="language-gorillascript">let loop = promisefor(3) filename in filenames
+  every-promise! file-promises</code></pre>
+        </section>
+        <section>
+          <h3>promisefor</h3>
+          <pre><code class="language-gorillascript">let loop = promisefor(3) filename in filenames
   let text = yield read-file filename
   return text.to-upper-case()
 
-loop.then on-success, on-error
-</code></pre>
-          </section>
+loop.then on-success, on-error</code></pre>
         </section>
         <section>
           <h3>Optional typing</h3>
@@ -943,8 +853,7 @@ let get-number() as Number -&gt; num
 let join(x as [String]) x.join ", "
 let use-object(o as {x: Number, y: Number}) o.x + o.y
 
-let x as Number = f()
-</code></pre>
+let x as Number = f()</code></pre>
         </section>
         <section>
           <h3>Operators as functions</h3>
@@ -967,8 +876,7 @@ let get-length = (.length) // same as #(x) x.length
 assert get-length("hello") == 5
 
 let to-hex = (.to-string(16)) // same as #(x) x.to-string(16)
-assert to-hex(255) == "ff"
-</code></pre>
+assert to-hex(255) == "ff"</code></pre>
         </section>
         <section>
           <h3>Getters and setters and custom properties, oh my!</h3>
@@ -982,13 +890,11 @@ assert to-hex(255) == "ff"
     get: # @_y
     set: #(value)! @_y := value
     configurable: true
-    enumerable: true
-</code></pre>
+    enumerable: true</code></pre>
         </section>
         <section>
-          <section>
-            <h3>Curried functions</h3>
-            <pre><code class="language-gorillascript">let add(a, b, c)^
+          <h3>Curried functions</h3>
+          <pre><code class="language-gorillascript">let add(a, b, c)^
   a + b + c
 
 assert add(1, 2, 3) == 6 // same as before
@@ -997,11 +903,10 @@ assert add-one(2, 3) == 6
 let add-two = add 2
 assert add-two(1, 3) == 6
 let add-one-and-two = add-one 2 // or add 1, 2
-assert add-one-and-two(3) == 6
-</code></pre>
-          </section>
-          <section>
-            <pre><code class="language-gorillascript">let sort-by(key, array)^
+assert add-one-and-two(3) == 6</code></pre>
+        </section>
+        <section>
+          <pre><code class="language-gorillascript">let sort-by(key, array)^
   array.sort #(a, b) a[key] &lt;=&gt; b[key]
 
 let sort-by-id = sort-by \id
@@ -1018,9 +923,7 @@ let items =
     name: "Guitar"
 
 let items-by-name = sort-by-name items
-let items-by-id = sort-by-id items
-</code></pre>
-          </section>
+let items-by-id = sort-by-id items</code></pre>
         </section>
         <section>
           <h3>Generics</h3>
@@ -1061,8 +964,7 @@ assert func(null) == null</code></pre>
       }
     }
   }
-});
-</code></pre>
+});</code></pre>
         </section>
         <section>
           <h3>Built-in coverage support</h3>
@@ -1077,12 +979,11 @@ assert func(null) == null</code></pre>
           <p>Also, GorillaScript has full support for Source Maps, so you'll be able to debug in the language you wrote in rather than the compiled JavaScript.</p>
         </section>
         <section>
-          <section>
-            <h3>Macros</h3>
-          </section>
-          <section>
-            <h3>Unary operators</h3>
-            <pre><code class="language-gorillascript">macro operator unary +?
+          <h2>Macros</h2>
+        </section>
+        <section>
+          <h3>Unary operators</h3>
+          <pre><code class="language-gorillascript">macro operator unary +?
   // the following idents are available:
   //   op (which will always be "+?" in this case)
   //   node (which will be the node to the right of this unary prefix macro)
@@ -1091,12 +992,11 @@ assert func(null) == null</code></pre>
 
 assert(+?500)
 assert(not +?(-500))
-assert(+?f())
-</code></pre>
-          </section>
-          <section>
-            <h3>Binary operators</h3>
-            <pre><code class="language-gorillascript">macro operator binary union, ∪
+assert(+?f())</code></pre>
+        </section>
+        <section>
+          <h3>Binary operators</h3>
+          <pre><code class="language-gorillascript">macro operator binary union, ∪
   // the following idents are available:
   //   op (which will either be "union" or "∪", i.e. "\u222a")
   //   left (which will be the node to the left of the binary operator)
@@ -1105,12 +1005,11 @@ assert(+?f())
   ASTE $left.union($right)
 
 assert(alpha union bravo union charlie)
-assert(alpha ∪ bravo ∪ charlie ∪ delta)
-</code></pre>
-          </section>
-          <section>
-            <h3>Assign operators</h3>
-            <pre><code class="language-gorillascript">macro operator assign union=, ∪=
+assert(alpha ∪ bravo ∪ charlie ∪ delta)</code></pre>
+        </section>
+        <section>
+          <h3>Assign operators</h3>
+          <pre><code class="language-gorillascript">macro operator assign union=, ∪=
   // the following idents are available:
   //   op (which will either be "union=" or "∪=", i.e. "\u222a=")
   //   left (which will be the node to the left of the assign operator)
@@ -1124,12 +1023,11 @@ assert(alpha ∪ bravo ∪ charlie ∪ delta)
 let mutable alpha = some-set()
 alpha union= bravo
 alpha ∪= charlie
-get-obj()[key()] union= delta()
-</code></pre>
-          </section>
-          <section>
-            <h3>Callable macros</h3>
-            <pre><code class="language-gorillascript">macro get-or-add(cache, key, value)
+get-obj()[key()] union= delta()</code></pre>
+        </section>
+        <section>
+          <h3>Callable macros</h3>
+          <pre><code class="language-gorillascript">macro get-or-add(cache, key, value)
   @maybe-cache cache, #(set-cache, cache)
     @maybe-cache key, #(set-key, key)
       let tmp = @tmp() // we need a temporary variable to store things into.
@@ -1141,12 +1039,11 @@ get-obj()[key()] union= delta()
 
 let some-cache = {}
 let x = get-or-add some-cache, key, something-expensive()
-let y = get-or-add some-cache, key, something-expensive() // something-expensive() is never executed
-</code></pre>
-          </section>
-          <section>
-            <h3>Custom-syntax macros</h3>
-            <pre><code class="language-gorillascript">macro when
+let y = get-or-add some-cache, key, something-expensive() // something-expensive() is never executed</code></pre>
+        </section>
+        <section>
+          <h3>Custom-syntax macros</h3>
+          <pre><code class="language-gorillascript">macro when
   syntax test as Logic, "then", body as Expression
     // the following idents are available:
     //   macro-name (which will always be "when" for this macro)
@@ -1163,9 +1060,7 @@ let y = get-or-add some-cache, key, something-expensive() // something-expensive
 when is-hungry() or is-bored() then eat()
 
 when is-angry()
-  calm-down()
-</code></pre>
-          </section>
+  calm-down()</code></pre>
         </section>
         <section>
           <h2>Q &amp; A</h2>
@@ -1188,7 +1083,7 @@ when is-angry()
         center: true,
 
         theme: "default", // available themes are in /css/theme
-        transition: Reveal.getQueryHash().transition || 'default',
+        transition: Reveal.getQueryHash().transition || 'linear',
         
         dependencies: [
             // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
@@ -1207,5 +1102,6 @@ when is-angry()
       });
 
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   </body>
 </html>
