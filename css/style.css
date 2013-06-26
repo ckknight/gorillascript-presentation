@@ -11,3 +11,11 @@ code.language-javascript, pre.language-javascript {
 code.language-gorillascript, pre.language-gorillascript {
   background: #cff;
 }
+
+pre {
+  max-height: 300px;
+}
+
+.reveal pre, .reveal code {
+  line-height: 1.2em;
+}
