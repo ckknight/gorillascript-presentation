@@ -51,14 +51,17 @@
         </section>
         <section>
           <section>
-            <h3>Design philosophy</h3>
-            <p>One of the big philosophies behind GorillaScript is that if something is tedious, then there should be a way to do things "the right way" without having to expend too much brainpower on it.</p>
+            <section>
+              <h3>Design philosophy</h3>
+              <p>One of the big philosophies behind GorillaScript is that if something is tedious, then there should be a way to do things "the right way" without having to expend too much brainpower on it.</p>
           
-            <p class="fragment">An good historical example of this is Garbage Collection. Before its wide-spread adoption, it was necessary to spend at least half of one's brainpower simply making sure that you've <code>free</code>'d or <code>delete</code>'d all your references. Once Garbage Collection comes into play, all the thought that would have gone into manual cleanup can be spent on producing a product.</p>
-            
-            <p class="fragment">GorillaScript was written with the Sapir-Whorf hypothesis in-mind, in that mental capabilities are limited by the ability or inability to articulate within the bounds of one's linguistic capabilities.</p>
+              <p class="fragment">An good historical example of this is Garbage Collection. Before its wide-spread adoption, it was necessary to spend at least half of one's brainpower simply making sure that you've <code>free</code>'d or <code>delete</code>'d all your references. Once Garbage Collection comes into play, all the thought that would have gone into manual cleanup can be spent on producing a product.</p>
+            </section>
+            <section>
+              <p class="fragment">GorillaScript was written with the Sapir-Whorf hypothesis in-mind, in that mental capabilities are limited by the ability or inability to articulate within the bounds of one's linguistic capabilities.</p>
           
-            <p class="fragment">Humans have a finite number of thoughts that run through our minds per day. Thus, one of GorillaScript's main goals is to optimize human thought by relieving as much stress and ceremony of coding as possible while simultaneously enabling the writing of beautiful code.</p>
+              <p class="fragment">Humans have a finite number of thoughts that run through our minds per day. Thus, one of GorillaScript's main goals is to optimize human thought by relieving as much stress and ceremony of coding as possible while simultaneously enabling the writing of beautiful code.</p>
+            </section>
           </section>
           <section>
             <h3>Beautiful code</h3>
@@ -77,24 +80,26 @@
           <h3 class="fragment">(and how GorillaScript <em>tries</em> to fix it)</h3>
         </section>
         <section>
-          <h3>Unstrict equality by default</h3>
-          <pre><code class="language-javascript">1 == "1"
-0 != ""
-3 == "03"
-[] == ""
-[] == 0
-[] == ![]
-[] == false
-[""] == 0
-["0"] == 0
-{toString: function() { return ""; }} == 0
-null != false
-null == undefined
-</code></pre>
+          <section>
+            <h3>Unstrict equality by default</h3>
+            <pre><code class="language-javascript">1 == "1"
+  0 != ""
+  3 == "03"
+  [] == ""
+  [] == 0
+  [] == ![]
+  [] == false
+  [""] == 0
+  ["0"] == 0
+  {toString: function() { return ""; }} == 0
+  null != false
+  null == undefined
+  </code></pre>
           
-          <p class="fragment">In JavaScript, the solution is to always use <code class="language-javascript">===</code>. The only valid time to use <code class="language-javascript">==</code> is when comparing against <code class="language-javascript">null</code></p>
-          
-          <pre class="fragment"><code class="language-gorillascript">1 != "1"
+            <p class="fragment">In JavaScript, the solution is to always use <code class="language-javascript">===</code>. The only valid time to use <code class="language-javascript">==</code> is when comparing against <code class="language-javascript">null</code></p>
+          </section>
+          <section>
+            <pre><code class="language-gorillascript">1 != "1"
 3 != "03"
 [] != ""
 // etc
@@ -106,6 +111,7 @@ undefined? // false
 false? // true
 true? // true
 </code></pre>
+          </section>
         </section>
         <section>
           <section>
