@@ -532,30 +532,27 @@ new f(item)</code></pre>
         <section>
           <h3>Binding access</h3>
           
-          <pre><code class="language-gorillascript">f(0)
-f 1
-f ...array
-f start, ...middle, end, ...as-many-of-these-as-you-want
-
-f@ context, first-arg // same as f.call(context, first-arg)
-f@ context, ...array // same as f.apply(context, array)
-
-new f
-new f item
-new f(item)</code></pre>
-          
-        </section>
-        <section>
-          <h3>Array syntax</h3>
-          
           <pre><code class="language-gorillascript">let obj = {
   f: # this
 }
 
 let bound = obj@.f
-assert bound() == obj
+assert bound() == obj // same as doing obj.f.call(obj)
 let unbound = obj.f
 assert unbound() == window</code></pre>
+          
+        </section>
+        <section>
+          <h3>Array syntax</h3>
+          
+          <pre><code class="language-gorillascript">let list = [1, 2, 3]
+let other-list = [...list, 4, 5, 6] // now contains [1, 2, 3, 4, 5, 6]
+
+// another way to specify an array
+let items =
+  * "Apples"
+  * "Bananas"
+  * "Cherries"</code></pre>
         </section>
         <section>
           <h3>Object syntax</h3>
